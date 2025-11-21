@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuiCuit ?</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- Reset et Variables V2 --- */
+        :root {
+            --background-color: #fdf6e3; /* Crème */
+            --text-color: #58402c; /* Brun doux */
+            --title-color: #d95f43; /* Terracotta */
+            --primary-color: #cb4b16; /* Orange brûlé */
+            --primary-hover-color: #b54013;
+            --card-background: #fff;
+            --secondary-color: #f5e5c7; /* Beige clair */
+            --border-color: #e0d5b6;
+            --box-shadow: 0 4px 12px rgba(88, 64, 44, 0.1);
+            --box-shadow-hover: 0 6px 16px rgba(88, 64, 44, 0.15);
+
+            --healthy-color: #7d9a5b; /* Vert olive */
+            --normal-color: #b58900; /* Ocre */
+            --fat-color: #cb4b16; /* Orange brûlé */
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            padding: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        /* --- Structure principale V2 --- */
+        main {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        section {
+            background-color: var(--card-background);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--box-shadow);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: var(--title-color);
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            color: var(--text-color);
+        }
+        
+        /* --- Section 1: Qui cuisine ? V2 --- */
+        #qui-cuisine .cook-highlight {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            padding: 1.2rem;
+            background-color: var(--secondary-color);
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+        }
+        
+        #weekly-view {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .day-card {
+            position: relative;
+            background: #fff;
+            border: 2px solid var(--secondary-color);
+            border-radius: 12px;
+            padding: 0.75rem;
+            width: calc(33.333% - 1rem);
+            min-width: 100px;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .day-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .day-card .day-name {
+            font-weight: 700;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        
+        .day-card .cook-name {
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .day-card.current-day {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: #fff;
+            transform: scale(1.05);
+            box-shadow: var(--box-shadow-hover);
+        }
+        
+        .day-card.current-day .cook-name {
+            color: #f5e5c7;
+        }
+        
+        .day-card.current-day::after {
+            content: 'Aujourd’hui';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--title-color);
+            color: #fff;
+            padding: 3px 10px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        /* --- Section 2: Quoi cuisiner ? V2 --- */
+        #filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .filter-btn {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            border: 2px solid var(--secondary-color);
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            background-color: #fff;
+            color: var(--text-color);
+        }
+        
+        .filter-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--box-shadow);
+        }
+
+        .filter-btn.active {
+            color: #fff;
+            transform: translateY(-2px);
+        }
+        
+        .filter-btn[data-category="healthy"].active {
+            background-color: var(--healthy-color);
+            border-color: var(--healthy-color);
+        }
+        .filter-btn[data-category="normal"].active {
+            background-color: var(--normal-color);
+            border-color: var(--normal-color);
+        }
+        .filter-btn[data-category="fat"].active {
+            background-color: var(--fat-color);
+            border-color: var(--fat-color);
+        }
+
+        #draw-button {
+            padding: 1rem;
+            font-size: 1.25rem;
+            font-weight: 800;
+            border-radius: 16px;
+            border: none;
+            cursor: pointer;
+            background-color: var(--primary-color);
+            color: #fff;
+            transition: background-color 0.2s, transform 0.2s;
+            box-shadow: var(--box-shadow);
+        }
+
+        #draw-button:hover {
+            background-color: var(--primary-hover-color);
+            transform: translateY(-3px);
+        }
+
+        #result-container {
+            display: none; /* Caché par défaut */
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        #result-display {
+            font-size: 1.75rem;
+            font-weight: 800;
+            padding: 2rem;
+            background: var(--title-color);
+            color: #fff;
+            border-radius: 16px;
+            animation: fadeIn 0.5s ease-out;
+            box-shadow: var(--box-shadow);
+        }
+
+        /* --- Section 3: Recette ChatGPT V2 --- */
+        #chatgpt-link {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 0.8rem 1.75rem;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            text-decoration: none;
+            background-color: var(--healthy-color);
+            color: #fff;
+            transition: background-color 0.2s, transform 0.2s;
+            box-shadow: var(--box-shadow);
+        }
+
+        #chatgpt-link:hover {
+            background-color: #6b844d;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: var(--box-shadow-hover);
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <main>
+        <h1>QuiCuit ?</h1>
+
+        <!-- Section 1: Qui cuisine aujourd'hui ? -->
+        <section id="qui-cuisine">
+            <p id="cook-of-the-day" class="cook-highlight">Chargement...</p>
+            <div id="weekly-view">
+                <!-- La vue semaine sera injectée ici par le JS -->
+            </div>
+        </section>
+
+        <!-- Section 2: Quoi cuisiner ? -->
+        <section id="quoi-cuisiner">
+            <h2>Quoi cuisiner ?</h2>
+            
+            <div id="filters">
+                <button class="filter-btn" data-category="healthy">Healthy</button>
+                <button class="filter-btn" data-category="normal">Normal</button>
+                <button class="filter-btn" data-category="fat">Fat</button>
+            </div>
+
+            <button id="draw-button">Tirer au sort un plat !</button>
+
+            <div id="result-container">
+                <div id="result-display"></div>
+                <!-- Section 3: Recette ChatGPT (le lien est injecté ici) -->
+                <a id="chatgpt-link" href="#" target="_blank" rel="noopener noreferrer" style="display: none;">Voir la recette</a>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // --- Données de l'application ---
+
+        const weeklySchedule = {
+            'Lundi': 'lui',
+            'Mardi': 'elle',
+            'Mercredi': 'lui',
+            'Jeudi': 'elle',
+            'Vendredi': 'lui',
+            'Samedi': 'elle',
+            'Dimanche': 'lui'
+        };
+
+        const dishes = {
+            healthy: ['Filet de poulet grillé', 'Ratatouille maison', 'Salade niçoise', 'Saumon vapeur au citron', 'Soupe de légumes verts'],
+            normal: ['Pâtes à la carbonara', 'Blanquette de veau', 'Quiche lorraine', 'Poulet rôti et ses pommes de terre', 'Gratin dauphinois'],
+            fat: ['Tartiflette', 'Raclette', 'Burger maison et frites', 'Croque-monsieur gratiné', 'Lasagnes bolognaises']
+        };
+
+        // --- Éléments du DOM ---
+        
+        const cookDisplay = document.getElementById('cook-of-the-day');
+        const weeklyViewContainer = document.getElementById('weekly-view');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const drawButton = document.getElementById('draw-button');
+        const resultContainer = document.getElementById('result-container');
+        const resultDisplay = document.getElementById('result-display');
+        const chatgptLink = document.getElementById('chatgpt-link');
+
+        // --- Logique de l'application ---
+
+        function getTodayDayName() {
+            const dayIndex = new Date().getDay(); // 0=Dim, 1=Lun, ..., 6=Sam
+            const days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+            return days[dayIndex];
+        }
+
+        /**
+         * Section 1.1: Affiche qui cuisine aujourd'hui.
+         */
+        function setCookOfTheDay() {
+            const todayName = getTodayDayName();
+            const currentCook = weeklySchedule[todayName];
+            cookDisplay.innerHTML = `Aujourd’hui, c’est <strong>${currentCook}</strong> qui cuisine !`;
+        }
+        
+        /**
+         * Section 1.2: Affiche la vue de la semaine.
+         */
+        function renderWeeklyView() {
+            const todayName = getTodayDayName();
+            const daysOrder = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+            
+            weeklyViewContainer.innerHTML = ''; // Vide le conteneur
+
+            daysOrder.forEach(day => {
+                const cook = weeklySchedule[day];
+                const card = document.createElement('div');
+                card.className = 'day-card';
+                
+                if (day === todayName) {
+                    card.classList.add('current-day');
+                }
+                
+                card.innerHTML = `
+                    <span class="day-name">${day.substring(0, 3)}</span>
+                    <span class="cook-name">${cook}</span>
+                `;
+                weeklyViewContainer.appendChild(card);
+            });
+        }
+
+        /**
+         * Section 2 & 3: Gère la roulette de plats.
+         */
+        function setupRoulette() {
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    button.classList.toggle('active');
+                });
+            });
+
+            drawButton.addEventListener('click', () => {
+                const activeFilters = Array.from(filterButtons)
+                    .filter(btn => btn.classList.contains('active'))
+                    .map(btn => btn.dataset.category);
+
+                let pool = [];
+
+                if (activeFilters.length === 0) {
+                    pool = Object.values(dishes).flat();
+                } else {
+                    activeFilters.forEach(category => {
+                        pool.push(...dishes[category]);
+                    });
+                }
+                
+                if (pool.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * pool.length);
+                    displayResult(pool[randomIndex]);
+                }
+            });
+        }
+        
+        /**
+         * Affiche le plat sélectionné et le lien vers la recette.
+         * @param {string} dishName - Le nom du plat à afficher.
+         */
+        function displayResult(dishName) {
+            resultDisplay.textContent = dishName;
+            
+            const prompt = `Donne-moi une recette simple, rapide et détaillée pour préparer : "${dishName}". Format : ingrédients, étapes, temps, variantes healthy.`;
+            const chatgptUrl = `https://chat.openai.com/?q=${encodeURIComponent(prompt)}`;
+            
+            chatgptLink.href = chatgptUrl;
+
+            resultContainer.style.display = 'block';
+            chatgptLink.style.display = 'inline-block';
+        }
+
+        // --- Initialisation ---
+        setCookOfTheDay();
+        renderWeeklyView();
+        setupRoulette();
+
+    });
+    </script>
+</body>
+</html>
