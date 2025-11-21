@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#cb4b16">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="QuiCuit">
     <title>QuiCuit ?</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -41,6 +47,23 @@
             justify-content: center;
             padding: 1rem;
             transition: background-color 0.3s;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Monochrome fallback splash background for standalone/iOS */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: var(--background-color);
+            z-index: -1;
+        }
+
+        @media (display-mode: standalone) {
+            body::before {
+                background: var(--background-color);
+            }
         }
 
         /* --- Structure principale V2 --- */
@@ -157,6 +180,9 @@
             justify-content: center;
             flex-wrap: wrap;
             gap: 0.75rem;
+            margin-bottom: 1.75rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .filter-btn {
@@ -195,26 +221,49 @@
         }
 
         #draw-button {
-            padding: 1rem;
-            font-size: 1.25rem;
+            display: block;
+            width: 100%;
+            max-width: 420px;
+            margin: 1rem auto 0;
+            padding: 1.2rem 2rem;
+            font-size: 1.3rem;
             font-weight: 800;
-            border-radius: 16px;
-            border: none;
+            border-radius: 26px;
+            border: 3px solid rgba(255, 255, 255, 0.4);
             cursor: pointer;
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), #d95026);
             color: #fff;
-            transition: background-color 0.2s, transform 0.2s;
-            box-shadow: var(--box-shadow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+            box-shadow: 0 14px 28px rgba(203, 75, 22, 0.35);
+            letter-spacing: 0.02em;
         }
 
         #draw-button:hover {
-            background-color: var(--primary-hover-color);
-            transform: translateY(-3px);
+            background: linear-gradient(135deg, var(--primary-hover-color), #a93a0d);
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 18px 30px rgba(88, 64, 44, 0.25);
+        }
+
+        #draw-button:active {
+            transform: translateY(-1px);
+            box-shadow: var(--box-shadow);
+        }
+
+        #draw-button:focus-visible {
+            outline: 3px solid rgba(255, 255, 255, 0.7);
+            outline-offset: 4px;
+        }
+
+        @media (min-width: 768px) {
+            #draw-button {
+                font-size: 1.35rem;
+                padding: 1.35rem 2.5rem;
+            }
         }
 
         #result-container {
             display: none; /* Caché par défaut */
-            margin-top: 1rem;
+            margin-top: 2rem;
             text-align: center;
         }
 
@@ -420,6 +469,14 @@
         setupRoulette();
 
     });
+    </script>
+    <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./service-worker.js')
+                .catch((error) => console.error('Service worker registration failed:', error));
+        });
+    }
     </script>
 </body>
 </html>
