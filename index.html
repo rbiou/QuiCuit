@@ -30,6 +30,8 @@
             --healthy-color: #7d9a5b; /* Vert olive */
             --normal-color: #b58900; /* Ocre */
             --fat-color: #cb4b16; /* Orange brûlé */
+            --cold-color: #3a6ea5; /* Bleu doux */
+            --hot-color: #e07a5f; /* Corail chaud */
         }
 
         *, *::before, *::after {
@@ -177,12 +179,32 @@
         /* --- Section 2: Quoi cuisiner ? V2 --- */
         #filters {
             display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 0.75rem;
+            flex-direction: column;
+            gap: 1.25rem;
             margin-bottom: 1.75rem;
             padding-bottom: 1rem;
             border-bottom: 1px solid var(--border-color);
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-group-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--title-color);
+        }
+
+        .filter-group-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
         }
 
         .filter-btn {
@@ -211,13 +233,23 @@
             background-color: var(--healthy-color);
             border-color: var(--healthy-color);
         }
-        .filter-btn[data-category="normal"].active {
+        .filter-btn[data-category="banale"].active {
             background-color: var(--normal-color);
             border-color: var(--normal-color);
         }
-        .filter-btn[data-category="fat"].active {
+        .filter-btn[data-category="sale"].active {
             background-color: var(--fat-color);
             border-color: var(--fat-color);
+        }
+
+        .filter-btn[data-temperature="cold"].active {
+            background-color: var(--cold-color);
+            border-color: var(--cold-color);
+        }
+
+        .filter-btn[data-temperature="hot"].active {
+            background-color: var(--hot-color);
+            border-color: var(--hot-color);
         }
 
         #draw-button {
@@ -278,23 +310,153 @@
             box-shadow: var(--box-shadow);
         }
 
+        .result-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-top: 1.4rem;
+        }
+
+        @media (min-width: 480px) {
+            .result-actions {
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+
+        /* --- Section 3: Catalogue de recettes --- */
+        #recettes-disponibles .recipes-grid {
+            display: grid;
+            gap: 1.25rem;
+        }
+
+        @media (min-width: 600px) {
+            #recettes-disponibles .recipes-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            }
+        }
+
+        .recipe-category {
+            background-color: var(--secondary-color);
+            border-radius: 14px;
+            padding: 1rem 1.25rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--box-shadow);
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .recipe-category .category-toggle {
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            text-align: left;
+            font-weight: 700;
+            font-family: inherit;
+            color: inherit;
+        }
+
+        .recipe-category .chevron {
+            transition: transform 0.2s ease;
+            font-size: 1.2rem;
+        }
+
+        .recipe-category.collapsed .chevron {
+            transform: rotate(-90deg);
+        }
+
+        .recipe-category.collapsed .recipe-list {
+            display: none;
+        }
+
+        .recipe-category ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            font-size: 0.95rem;
+        }
+
+        .recipe-category li {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .recipe-category .dish-name {
+            font-weight: 600;
+        }
+
+        .temperature-tag {
+            margin-left: 0.35rem;
+            padding: 0.1rem 0.45rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+
+        .temperature-tag.cold {
+            background-color: var(--cold-color);
+        }
+
+        .temperature-tag.hot {
+            background-color: var(--hot-color);
+        }
+
+        .recipe-category.healthy .category-toggle {
+            color: var(--healthy-color);
+        }
+
+        .recipe-category.banale .category-toggle {
+            color: var(--normal-color);
+        }
+
+        .recipe-category.sale .category-toggle {
+            color: var(--fat-color);
+        }
+
         /* --- Section 3: Recette ChatGPT V2 --- */
-        #chatgpt-link {
-            display: inline-block;
-            margin-top: 1.5rem;
-            padding: 0.8rem 1.75rem;
+        .result-link {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.85rem 1.75rem;
             font-size: 1rem;
             font-weight: 700;
             border-radius: 50px;
             text-decoration: none;
-            background-color: var(--healthy-color);
             color: #fff;
             transition: background-color 0.2s, transform 0.2s;
             box-shadow: var(--box-shadow);
         }
 
+        #chatgpt-link {
+            background-color: var(--healthy-color);
+        }
+
         #chatgpt-link:hover {
             background-color: #6b844d;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: var(--box-shadow-hover);
+        }
+
+        #more-ideas-link {
+            background-color: var(--primary-color);
+        }
+
+        #more-ideas-link:hover {
+            background-color: var(--primary-hover-color);
             transform: translateY(-3px) scale(1.05);
             box-shadow: var(--box-shadow-hover);
         }
@@ -325,9 +487,22 @@
             <h2>Quoi cuisiner ?</h2>
             
             <div id="filters">
-                <button class="filter-btn" data-category="healthy">Healthy</button>
-                <button class="filter-btn" data-category="normal">Normal</button>
-                <button class="filter-btn" data-category="fat">Fat</button>
+                <div class="filter-group">
+                    <p class="filter-group-title">Style de plat</p>
+                    <div class="filter-group-buttons">
+                        <button class="filter-btn" data-category="healthy">Healthy 🥕</button>
+                        <button class="filter-btn" data-category="banale">Banale 🍚</button>
+                        <button class="filter-btn" data-category="sale">Sale 🍔</button>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <p class="filter-group-title">Météo</p>
+                    <div class="filter-group-buttons temperature-buttons">
+                        <button class="filter-btn" data-temperature="cold">Quand il fait froid ❄️</button>
+                        <button class="filter-btn" data-temperature="hot">Quand il fait chaud ☀️</button>
+                    </div>
+                </div>
             </div>
 
             <button id="draw-button">Tirer au sort un plat !</button>
@@ -335,7 +510,18 @@
             <div id="result-container">
                 <div id="result-display"></div>
                 <!-- Section 3: Recette ChatGPT (le lien est injecté ici) -->
-                <a id="chatgpt-link" href="#" target="_blank" rel="noopener noreferrer" style="display: none;">Voir la recette</a>
+                <div class="result-actions">
+                    <a id="chatgpt-link" class="result-link" href="#" target="_blank" rel="noopener noreferrer" style="display: none;">Voir la recette</a>
+                    <a id="more-ideas-link" class="result-link" href="#" target="_blank" rel="noopener noreferrer" style="display: none;">D’autres idées ?</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Recettes détaillées -->
+        <section id="recettes-disponibles">
+            <h2>Recettes par filtre</h2>
+            <div id="recipes-by-filter" class="recipes-grid">
+                <!-- Liste remplie par le JS -->
             </div>
         </section>
 
@@ -356,21 +542,130 @@
             'Dimanche': 'lui'
         };
 
+        const cookMood = {
+            'lui': { emoji: '🧔🏻‍♂️💪', label: 'lui' },
+            'elle': { emoji: '💅💄', label: 'elle' }
+        };
+
         const dishes = {
-            healthy: ['Filet de poulet grillé', 'Ratatouille maison', 'Salade niçoise', 'Saumon vapeur au citron', 'Soupe de légumes verts'],
-            normal: ['Pâtes à la carbonara', 'Blanquette de veau', 'Quiche lorraine', 'Poulet rôti et ses pommes de terre', 'Gratin dauphinois'],
-            fat: ['Tartiflette', 'Raclette', 'Burger maison et frites', 'Croque-monsieur gratiné', 'Lasagnes bolognaises']
+            healthy: [
+                'Soupe lentilles corail',
+                'Soupe légumes',
+                'Soupe lentilles coco',
+                'Poêlée haricots verts',
+                'Poêlée légumes/viande',
+                'Fondue de poireau',
+                'Patates vapeur',
+                'Soupe poulet vermicelles',
+                'Ratatouille',
+                'Patates sauce tomate',
+                'Tian de légumes',
+                'Salade betterave/carottes',
+                'Salade de tomates',
+                'Brocolis vapeur',
+                'Choux fleur vapeur',
+                'Purée de pois cassés',
+                'Haricots blancs',
+                'One pot riz poireaux saumon',
+                'One pot lentilles corail épinards tomate'
+            ],
+            banale: [
+                'Endives au jambon',
+                'Poulet Yassa',
+                'Pâtes bolo',
+                'Pâtes sauce tomate',
+                'Poulet curry',
+                'Pavé de saumon',
+                'Omelette',
+                'Tarte à la tomate',
+                'Salade de pâtes',
+                'Salade de riz',
+                'Couscous',
+                'Bateau d\'aubergine',
+                'Tomates farcies',
+                'Bruschetta',
+                'Avocado toast',
+                'Galettes bretonnes',
+                'Purée de patates/carottes',
+                'Salade de chèvre chaud',
+                'Chili con carne',
+                'Boulgour en sauce',
+                'Purée de pomme de terre/carottes'
+            ],
+            sale: [
+                'Panier jambon',
+                'Risotto chorizo',
+                'Hamburger maison',
+                'Pizza maison',
+                'Pâtes carbo',
+                'Lasagnes',
+                'Quiche lorraine',
+                'Raclette',
+                'Tartiflette',
+                'Steak frites',
+                'Gnocchis pesto vert',
+                'Gratin dauphinois',
+                'Boeuf bourguignon',
+                'Croque monsieur',
+                'Poulet rôti patates'
+            ]
+        };
+
+        const categoriesMeta = {
+            healthy: { label: 'Healthy 🥕', prompt: 'd’esprit healthy' },
+            banale: { label: 'Banale 🍚', prompt: 'de tous les jours' },
+            sale: { label: 'Sale 🍔', prompt: 'bien gourmand' }
+        };
+
+        const temperatureLabels = {
+            cold: 'Froid ❄️',
+            hot: 'Chaud ☀️'
+        };
+
+        const temperaturePromptLabels = {
+            cold: 'quand il fait froid',
+            hot: 'quand il fait chaud'
+        };
+
+        const dishTemperatureTags = {
+            'Soupe lentilles corail': ['cold'],
+            'Soupe légumes': ['cold'],
+            'Soupe lentilles coco': ['cold'],
+            'Soupe poulet vermicelles': ['cold'],
+            'Fondue de poireau': ['cold'],
+            'Raclette': ['cold'],
+            'Tartiflette': ['cold'],
+            'Gratin dauphinois': ['cold'],
+            'Boeuf bourguignon': ['cold'],
+            'Chili con carne': ['cold'],
+            'Purée de pois cassés': ['cold'],
+            'Haricots blancs': ['cold'],
+            'One pot riz poireaux saumon': ['cold'],
+            'One pot lentilles corail épinards tomate': ['cold'],
+            'Risotto chorizo': ['cold'],
+            'Salade de pâtes': ['hot'],
+            'Salade de riz': ['hot'],
+            'Salade betterave/carottes': ['hot'],
+            'Salade de tomates': ['hot'],
+            'Salade de chèvre chaud': ['hot'],
+            'Bruschetta': ['hot'],
+            'Avocado toast': ['hot'],
+            'Tian de légumes': ['hot'],
+            'Pizza maison': []
         };
 
         // --- Éléments du DOM ---
         
         const cookDisplay = document.getElementById('cook-of-the-day');
         const weeklyViewContainer = document.getElementById('weekly-view');
-        const filterButtons = document.querySelectorAll('.filter-btn');
+        const categoryButtons = document.querySelectorAll('.filter-btn[data-category]');
+        const temperatureButtons = document.querySelectorAll('.filter-btn[data-temperature]');
         const drawButton = document.getElementById('draw-button');
         const resultContainer = document.getElementById('result-container');
         const resultDisplay = document.getElementById('result-display');
         const chatgptLink = document.getElementById('chatgpt-link');
+        const moreIdeasLink = document.getElementById('more-ideas-link');
+        const recipesByFilterContainer = document.getElementById('recipes-by-filter');
 
         // --- Logique de l'application ---
 
@@ -386,7 +681,8 @@
         function setCookOfTheDay() {
             const todayName = getTodayDayName();
             const currentCook = weeklySchedule[todayName];
-            cookDisplay.innerHTML = `Aujourd’hui, c’est <strong>${currentCook}</strong> qui cuisine !`;
+            const mood = cookMood[currentCook] || { emoji: '🍳', label: currentCook };
+            cookDisplay.innerHTML = `Aujourd’hui ${mood.emoji} c’est <strong>${mood.label}</strong> qui cuisine !`;
         }
         
         /**
@@ -400,6 +696,7 @@
 
             daysOrder.forEach(day => {
                 const cook = weeklySchedule[day];
+                const mood = cookMood[cook] || {};
                 const card = document.createElement('div');
                 card.className = 'day-card';
                 
@@ -409,40 +706,138 @@
                 
                 card.innerHTML = `
                     <span class="day-name">${day.substring(0, 3)}</span>
-                    <span class="cook-name">${cook}</span>
+                    <span class="cook-name">${mood.emoji ? `${mood.emoji} ` : ''}${cook}</span>
                 `;
                 weeklyViewContainer.appendChild(card);
             });
         }
 
         /**
-         * Section 2 & 3: Gère la roulette de plats.
+         * Section 2 bis: Affiche les recettes disponibles pour chaque filtre.
          */
-        function setupRoulette() {
-            filterButtons.forEach(button => {
+        function renderRecipesByFilter() {
+            if (!recipesByFilterContainer) return;
+
+            recipesByFilterContainer.innerHTML = '';
+
+            Object.keys(categoriesMeta).forEach(category => {
+                const card = document.createElement('div');
+                card.className = `recipe-category ${category}`;
+
+                const listItems = (dishes[category] || [])
+                    .map(dish => {
+                        const tags = (dishTemperatureTags[dish] || [])
+                            .map(temp => `<span class="temperature-tag ${temp}">${temperatureLabels[temp]}</span>`)
+                            .join('');
+                        return `<li><span class="dish-name">${dish}</span>${tags}</li>`;
+                    })
+                    .join('');
+
+                card.innerHTML = `
+                    <button class="category-toggle" type="button" aria-expanded="false">
+                        <span>${categoriesMeta[category].label}</span>
+                        <span class="chevron">⌄</span>
+                    </button>
+                    <ul class="recipe-list">${listItems}</ul>
+                `;
+
+                const toggleButton = card.querySelector('.category-toggle');
+                const recipeList = card.querySelector('.recipe-list');
+
+                card.classList.add('collapsed');
+
+                toggleButton.addEventListener('click', () => {
+                    const isCollapsed = card.classList.toggle('collapsed');
+                    toggleButton.setAttribute('aria-expanded', String(!isCollapsed));
+                });
+
+                recipesByFilterContainer.appendChild(card);
+            });
+        }
+
+        function setupCategoryFilters() {
+            categoryButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     button.classList.toggle('active');
                 });
             });
+        }
 
+        function getDefaultTemperatureFilter() {
+            const month = new Date().getMonth(); // 0=Janvier
+            return month >= 4 && month <= 8 ? 'hot' : 'cold';
+        }
+
+        function setupTemperatureFilters() {
+            const defaultTemp = getDefaultTemperatureFilter();
+            const defaultButton = Array.from(temperatureButtons).find(
+                button => button.dataset.temperature === defaultTemp
+            );
+            if (defaultButton) {
+                defaultButton.classList.add('active');
+            }
+
+            temperatureButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    button.classList.toggle('active');
+                });
+            });
+        }
+
+        function getSelectedCategories() {
+            return Array.from(categoryButtons)
+                .filter(btn => btn.classList.contains('active'))
+                .map(btn => btn.dataset.category);
+        }
+
+        function getSelectedTemperatures() {
+            return Array.from(temperatureButtons)
+                .filter(btn => btn.classList.contains('active'))
+                .map(btn => btn.dataset.temperature);
+        }
+
+        function matchesTemperature(dishName, activeTemperatures) {
+            if (activeTemperatures.length === 0) return true;
+            const tags = dishTemperatureTags[dishName];
+            if (!tags) return true;
+            return activeTemperatures.some(temp => tags.includes(temp));
+        }
+
+        function describeFilters(categories, temperatures) {
+            const stylePart = categories.length > 0
+                ? categories.map(cat => categoriesMeta[cat]?.prompt || cat).join(', ')
+                : 'n’importe quel style';
+
+            const weatherPart = temperatures.length > 0
+                ? temperatures.map(temp => temperaturePromptLabels[temp] || temp).join(', ')
+                : 'toutes les météos';
+
+            return { stylePart, weatherPart };
+        }
+
+        /**
+         * Section 2 & 3: Gère la roulette de plats.
+         */
+        function setupRoulette() {
             drawButton.addEventListener('click', () => {
-                const activeFilters = Array.from(filterButtons)
-                    .filter(btn => btn.classList.contains('active'))
-                    .map(btn => btn.dataset.category);
+                const activeCategories = getSelectedCategories();
+                const activeTemperatures = getSelectedTemperatures();
 
                 let pool = [];
 
-                if (activeFilters.length === 0) {
+                if (activeCategories.length === 0) {
                     pool = Object.values(dishes).flat();
                 } else {
-                    activeFilters.forEach(category => {
+                    activeCategories.forEach(category => {
                         pool.push(...dishes[category]);
                     });
                 }
+
+                pool = pool.filter(dish => matchesTemperature(dish, activeTemperatures));
                 
                 if (pool.length > 0) {
                     const randomIndex = Math.floor(Math.random() * pool.length);
-                    displayResult(pool[randomIndex]);
+                    displayResult(pool[randomIndex], activeCategories, activeTemperatures);
                 }
             });
         }
@@ -451,21 +846,32 @@
          * Affiche le plat sélectionné et le lien vers la recette.
          * @param {string} dishName - Le nom du plat à afficher.
          */
-        function displayResult(dishName) {
+        function buildChatGptUrl(prompt) {
+            const baseUrl = 'https://chat.openai.com/';
+            return `${baseUrl}?q=${encodeURIComponent(prompt)}`;
+        }
+
+        function displayResult(dishName, categories = [], temperatures = []) {
             resultDisplay.textContent = dishName;
             
-            const prompt = `Donne-moi une recette simple, rapide et détaillée pour préparer : "${dishName}". Format : ingrédients, étapes, temps, variantes healthy.`;
-            const chatgptUrl = `https://chat.openai.com/?q=${encodeURIComponent(prompt)}`;
-            
-            chatgptLink.href = chatgptUrl;
+            const filterDescription = describeFilters(categories, temperatures);
+            const recipePrompt = `Tu es un chef moderne. Donne-moi une recette simple, rapide et détaillée pour préparer "${dishName}". Le style recherché est ${filterDescription.stylePart} et la météo correspond à ${filterDescription.weatherPart}. Réponds avec ingrédients, étapes, temps total et idées healthy.`;
+            const moreIdeasPrompt = `Suggère 5 autres recettes faciles et rapides (${filterDescription.stylePart}, météo : ${filterDescription.weatherPart}). Pour chaque proposition : nom, temps approximatif, pourquoi c’est adapté.`;
+
+            chatgptLink.href = buildChatGptUrl(recipePrompt);
+            moreIdeasLink.href = buildChatGptUrl(moreIdeasPrompt);
 
             resultContainer.style.display = 'block';
-            chatgptLink.style.display = 'inline-block';
+            chatgptLink.style.display = 'inline-flex';
+            moreIdeasLink.style.display = 'inline-flex';
         }
 
         // --- Initialisation ---
         setCookOfTheDay();
         renderWeeklyView();
+        renderRecipesByFilter();
+        setupCategoryFilters();
+        setupTemperatureFilters();
         setupRoulette();
 
     });
