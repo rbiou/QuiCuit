@@ -16,22 +16,54 @@
     <style>
         /* --- Reset et Variables V2 --- */
         :root {
-            --background-color: #fdf6e3; /* Crème */
-            --text-color: #58402c; /* Brun doux */
-            --title-color: #d95f43; /* Terracotta */
-            --primary-color: #cb4b16; /* Orange brûlé */
+            color-scheme: light;
+            --background-color: #fdf6e3;
+            --text-color: #58402c;
+            --muted-text-color: rgba(88, 64, 44, 0.75);
+            --title-color: #d95f43;
+            --primary-color: #cb4b16;
             --primary-hover-color: #b54013;
-            --card-background: #fff;
-            --secondary-color: #f5e5c7; /* Beige clair */
+            --card-background: #fffbee;
+            --card-elevated-background: #ffffff;
+            --secondary-color: #f5e5c7;
             --border-color: #e0d5b6;
             --box-shadow: 0 4px 12px rgba(88, 64, 44, 0.1);
             --box-shadow-hover: 0 6px 16px rgba(88, 64, 44, 0.15);
+            --neon-text-shadow: 0 0 8px rgba(217, 95, 67, 0.5);
+            --neon-button-shadow: 0 0 14px rgba(203, 75, 22, 0.4);
+            --toggle-bg: rgba(255, 255, 255, 0.85);
+            --toggle-border: rgba(88, 64, 44, 0.2);
 
-            --healthy-color: #7d9a5b; /* Vert olive */
-            --normal-color: #b58900; /* Ocre */
-            --fat-color: #cb4b16; /* Orange brûlé */
-            --cold-color: #3a6ea5; /* Bleu doux */
-            --hot-color: #e07a5f; /* Corail chaud */
+            --healthy-color: #7d9a5b;
+            --normal-color: #b58900;
+            --fat-color: #cb4b16;
+            --cold-color: #3a6ea5;
+            --hot-color: #e07a5f;
+        }
+
+        :root.dark {
+            color-scheme: dark;
+            --background-color: #14110c;
+            --text-color: #f7ede0;
+            --muted-text-color: rgba(247, 237, 224, 0.75);
+            --title-color: #ffb088;
+            --primary-color: #ff824f;
+            --primary-hover-color: #ff996d;
+            --card-background: #1b160f;
+            --card-elevated-background: #241d15;
+            --secondary-color: #2f271c;
+            --border-color: rgba(255, 255, 255, 0.22);
+            --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+            --box-shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.55);
+            --neon-text-shadow: 0 0 10px rgba(255, 143, 92, 0.8), 0 0 20px rgba(255, 111, 53, 0.6);
+            --neon-button-shadow: 0 0 18px rgba(255, 111, 53, 0.65);
+            --toggle-bg: rgba(255, 255, 255, 0.1);
+            --toggle-border: rgba(255, 255, 255, 0.3);
+            --healthy-color: #94c973;
+            --normal-color: #dca915;
+            --fat-color: #ff824f;
+            --cold-color: #4d88c9;
+            --hot-color: #ff8262;
         }
 
         *, *::before, *::after {
@@ -95,6 +127,7 @@
         h1 {
             font-size: 3rem;
             color: var(--title-color);
+            text-shadow: var(--neon-text-shadow);
         }
 
         h2 {
@@ -118,7 +151,8 @@
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: var(--card-elevated-background);
+            border: 1px solid var(--border-color);
             border-radius: 999px;
             padding: 0.35rem 1rem;
             box-shadow: var(--box-shadow);
@@ -139,7 +173,7 @@
 
         .day-card {
             position: relative;
-            background: #fff;
+            background: var(--card-elevated-background);
             border: 2px solid var(--secondary-color);
             border-radius: 12px;
             padding: 0.75rem;
@@ -162,7 +196,7 @@
         
         .day-card .cook-name {
             font-size: 0.9rem;
-            color: #888;
+            color: var(--muted-text-color);
         }
 
         .day-card .cook-name .cook-emoji {
@@ -178,7 +212,7 @@
         }
         
         .day-card.current-day .cook-name {
-            color: #f5e5c7;
+            color: #fff;
         }
         
         .day-card.current-day::after {
@@ -235,7 +269,7 @@
             border: 2px solid var(--secondary-color);
             cursor: pointer;
             transition: all 0.2s ease-in-out;
-            background-color: #fff;
+            background-color: var(--card-elevated-background);
             color: var(--text-color);
         }
         
@@ -286,7 +320,7 @@
             background: linear-gradient(135deg, var(--primary-color), #d95026);
             color: #fff;
             transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-            box-shadow: 0 14px 28px rgba(203, 75, 22, 0.35);
+            box-shadow: var(--neon-button-shadow);
             letter-spacing: 0.02em;
         }
 
@@ -304,6 +338,36 @@
         #draw-button:focus-visible {
             outline: 3px solid rgba(255, 255, 255, 0.7);
             outline-offset: 4px;
+        }
+
+        .theme-toggle {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        #theme-toggle {
+            border: 2px solid var(--toggle-border);
+            background: var(--toggle-bg);
+            color: var(--text-color);
+            border-radius: 999px;
+            padding: 0.6rem 1.4rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            box-shadow: var(--box-shadow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+        #theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--box-shadow-hover);
+        }
+
+        :root.dark #theme-toggle {
+            box-shadow: var(--neon-button-shadow);
         }
 
         @media (min-width: 768px) {
@@ -358,7 +422,7 @@
         }
 
         .recipe-category {
-            background-color: var(--secondary-color);
+            background-color: var(--card-elevated-background);
             border-radius: 14px;
             padding: 1rem 1.25rem;
             border: 1px solid var(--border-color);
@@ -546,6 +610,13 @@
             </div>
         </section>
 
+        <div class="theme-toggle">
+            <button id="theme-toggle" type="button" aria-pressed="false">
+                <span class="toggle-icon" aria-hidden="true">🌞</span>
+                <span class="toggle-label">Mode clair</span>
+            </button>
+        </div>
+
     </main>
 
     <script>
@@ -702,9 +773,38 @@
         const resultDisplay = document.getElementById('result-display');
         const chatgptLink = document.getElementById('chatgpt-link');
         const moreIdeasLink = document.getElementById('more-ideas-link');
+        const themeToggleButton = document.getElementById('theme-toggle');
+        const themeToggleIcon = themeToggleButton ? themeToggleButton.querySelector('.toggle-icon') : null;
+        const themeToggleText = themeToggleButton ? themeToggleButton.querySelector('.toggle-label') : null;
         const recipesByFilterContainer = document.getElementById('recipes-by-filter');
 
         // --- Logique de l'application ---
+
+        const THEME_STORAGE_KEY = 'quicuit-theme';
+        const systemDarkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+        function applyTheme(theme) {
+            const root = document.documentElement;
+            const isDark = theme === 'dark';
+            root.classList.toggle('dark', isDark);
+            if (themeToggleButton) {
+                themeToggleButton.setAttribute('aria-pressed', String(isDark));
+                if (themeToggleIcon) {
+                    themeToggleIcon.textContent = isDark ? '🌙' : '🌞';
+                }
+                if (themeToggleText) {
+                    themeToggleText.textContent = isDark ? 'Mode sombre' : 'Mode clair';
+                }
+            }
+        }
+
+        function getPreferredTheme() {
+            const stored = localStorage.getItem(THEME_STORAGE_KEY);
+            if (stored === 'dark' || stored === 'light') {
+                return stored;
+            }
+            return systemDarkQuery.matches ? 'dark' : 'light';
+        }
 
         function getTodayDayName() {
             const dayIndex = new Date().getDay(); // 0=Dim, 1=Lun, ..., 6=Sam
@@ -853,6 +953,33 @@
             return { stylePart, weatherPart };
         }
 
+        function setupThemeToggle() {
+            applyTheme(getPreferredTheme());
+
+            if (themeToggleButton) {
+                themeToggleButton.addEventListener('click', () => {
+                    const isDark = document.documentElement.classList.contains('dark');
+                    const nextTheme = isDark ? 'light' : 'dark';
+                    localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+                    applyTheme(nextTheme);
+                });
+            }
+
+            const handleSystemChange = event => {
+                const stored = localStorage.getItem(THEME_STORAGE_KEY);
+                if (stored === 'dark' || stored === 'light') {
+                    return;
+                }
+                applyTheme(event.matches ? 'dark' : 'light');
+            };
+
+            if (typeof systemDarkQuery.addEventListener === 'function') {
+                systemDarkQuery.addEventListener('change', handleSystemChange);
+            } else if (typeof systemDarkQuery.addListener === 'function') {
+                systemDarkQuery.addListener(handleSystemChange);
+            }
+        }
+
         /**
          * Section 2 & 3: Gère la roulette de plats.
          */
@@ -911,6 +1038,7 @@
         setupCategoryFilters();
         setupTemperatureFilters();
         setupRoulette();
+        setupThemeToggle();
 
     });
     </script>
