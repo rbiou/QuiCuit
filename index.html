@@ -113,6 +113,22 @@
             margin-bottom: 2rem;
             color: var(--primary-color);
         }
+
+        .cook-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 999px;
+            padding: 0.35rem 1rem;
+            box-shadow: var(--box-shadow);
+            font-size: 1.1rem;
+            color: var(--text-color);
+        }
+
+        .cook-pill .cook-emoji {
+            font-size: 1.3rem;
+        }
         
         #weekly-view {
             display: flex;
@@ -147,6 +163,10 @@
         .day-card .cook-name {
             font-size: 0.9rem;
             color: #888;
+        }
+
+        .day-card .cook-name .cook-emoji {
+            margin-right: 0.2rem;
         }
 
         .day-card.current-day {
@@ -328,6 +348,7 @@
         #recettes-disponibles .recipes-grid {
             display: grid;
             gap: 1.25rem;
+            align-items: start;
         }
 
         @media (min-width: 600px) {
@@ -543,8 +564,8 @@
         };
 
         const cookMood = {
-            'lui': { emoji: '🧔🏻‍♂️💪', label: 'lui' },
-            'elle': { emoji: '👩🏻💅', label: 'elle' }
+            'lui': { emoji: '🧔🏻‍♂️⚽️', label: 'lui' },
+            'elle': { emoji: '👩🏻🌸', label: 'elle' }
         };
 
         const dishes = {
@@ -567,7 +588,11 @@
                 'Purée de pois cassés',
                 'Haricots blancs',
                 'One pot riz poireaux saumon',
-                'One pot lentilles corail épinards tomate'
+                'One pot lentilles corail épinards tomate',
+                'Wok de légumes et nouilles',
+                'Taboulé maison',
+                'Curry de pois chiches coco',
+                'Salade de patates et œufs'
             ],
             banale: [
                 'Endives au jambon',
@@ -590,7 +615,11 @@
                 'Salade de chèvre chaud',
                 'Chili con carne',
                 'Boulgour en sauce',
-                'Purée de pomme de terre/carottes'
+                'Purée de pomme de terre/carottes',
+                'Sauté de poulet aux légumes',
+                'Sauté de bœuf aux oignons',
+                'Quiche / Tarte de légumes',
+                'Chakchouka'
             ],
             sale: [
                 'Panier jambon',
@@ -607,7 +636,10 @@
                 'Gratin dauphinois',
                 'Boeuf bourguignon',
                 'Croque monsieur',
-                'Poulet rôti patates'
+                'Poulet rôti patates',
+                'Fish & Chips',
+                'Tacos mexicain maison',
+                'Blanquette de veau'
             ]
         };
 
@@ -651,7 +683,12 @@
             'Bruschetta': ['hot'],
             'Avocado toast': ['hot'],
             'Tian de légumes': ['hot'],
-            'Pizza maison': []
+            'Pizza maison': [],
+            'Sauté de poulet aux légumes': ['cold'],
+            'Sauté de bœuf aux oignons': ['cold'],
+            'Blanquette de veau': ['cold'],
+            'Taboulé maison': ['hot'],
+            'Salade de patates et œufs': ['hot']
         };
 
         // --- Éléments du DOM ---
@@ -682,7 +719,8 @@
             const todayName = getTodayDayName();
             const currentCook = weeklySchedule[todayName];
             const mood = cookMood[currentCook] || { emoji: '🍳', label: currentCook };
-            cookDisplay.innerHTML = `Aujourd’hui ${mood.emoji} c’est <strong>${mood.label}</strong> qui cuisine !`;
+            const badge = `<span class="cook-pill"><span class="cook-emoji">${mood.emoji}</span><span class="cook-label">${mood.label}</span></span>`;
+            cookDisplay.innerHTML = `Aujourd’hui, c’est ${badge} qui cuisine !`;
         }
         
         /**
@@ -706,7 +744,7 @@
                 
                 card.innerHTML = `
                     <span class="day-name">${day.substring(0, 3)}</span>
-                    <span class="cook-name">${mood.emoji ? `${mood.emoji} ` : ''}${cook}</span>
+                    <span class="cook-name">${mood.emoji ? `<span class="cook-emoji">${mood.emoji}</span>` : ''}${cook}</span>
                 `;
                 weeklyViewContainer.appendChild(card);
             });
