@@ -66,6 +66,10 @@
             --hot-color: #ff8262;
         }
 
+        html, body {
+            touch-action: manipulation;
+        }
+
         *, *::before, *::after {
             box-sizing: border-box;
             margin: 0;
@@ -553,6 +557,18 @@
         }
 
     </style>
+    <script>
+        (function preventDoubleTapZoom() {
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', (event) => {
+                const now = Date.now();
+                if (event.touches.length === 0 && now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, { passive: false });
+        })();
+    </script>
 </head>
 <body>
 
